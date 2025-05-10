@@ -1,1 +1,64 @@
-<h1>George Quito</h1>
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head') %>
+
+    <body>
+        <div class="container">
+            <%- include('partials/header') %>
+                <%- include('partials/nav') %>
+
+                    <main>
+                        <h1>CSE 341 Motors!</h1>
+
+                        <section class="feature">
+                            <div class="delorean-info">
+                                <h2 class="highlight">DMC Delorean</h2>
+                                <ul>
+                                    <li>Can Travel in Tome</li>
+                                    <li>Eco Trash Ion Tank</li>
+                                    <li>Full Mad Scientist support</li>
+                                </ul>
+                                <a href="#" class="btn">Buy Now</a>
+                            </div>
+                            <div class="delorean-img">
+                                <img src="/public/images/vehicles/delorean.jpg" alt="Delorean">
+                            </div>
+                        </section>
+
+                        <section class="reviews-upgrades">
+                            <div class="reviews">
+                                <h3>Car Reviews</h3>
+                                <ul>
+                                    <li>"Time travel after 88 mph lol" (4/5)</li>
+                                    <li>"Great way to visit ancient Egypt" (4/5)</li>
+                                    <li>"How do I get back to the future?" (3/5)</li>
+                                    <li>"Make sure the road is clear" (4.5/5)</li>
+                                    <li>"Good for history class" (5/5)</li>
+                                </ul>
+                            </div>
+
+                            <div class="upgrades">
+                                <h3>Delorean Upgrades</h3>
+                                <div class="upgrades-grid">
+                                    <a href="#"><img src="/public/images/upgrades/flux-cap.png" alt="Flux Capacitor">
+                                        <p>Flux Capacitor</p>
+                                    </a>
+                                    <a href="#"><img src="/public/images/upgrades/flame.jpg" alt="Flame Decals">
+                                        <p>Flame Decals</p>
+                                    </a>
+                                    <a href="#"><img src="/public/images/upgrades/bumper_sticker.jpg" alt="Bumper Stickers">
+                                        <p>Bumper Stickers</p>
+                                    </a>
+                                    <a href="#"><img src="/public/images/upgrades/hub-cap.jpg" alt="Hub Caps">
+                                        <p>Hub Caps</p>
+                                    </a>
+                                </div>
+                            </div>
+                        </section>
+                    </main>
+
+                    <%- include('partials/footer') %>
+        </div>
+    </body>
+
+</html>

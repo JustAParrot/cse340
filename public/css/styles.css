@@ -1,6 +1,120 @@
-/******* Change Box Model ***************/
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
+/* Mobile-first styles */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+  color: #222;
+  background: #fff;
+}
+
+.container {
+  padding: 1rem;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+nav ul {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  padding: 0;
+}
+
+nav li {
+  margin: 0.5rem 0;
+}
+
+nav a {
+  background: #222;
+  color: #fff;
+  padding: 0.5rem;
+  display: block;
+  text-align: center;
+  text-decoration: none;
+}
+
+main h1 {
+  font-size: 1.5rem;
+}
+
+.feature {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.delorean-info {
+  text-align: center;
+}
+
+.delorean-info .highlight {
+  color: #0284c7;
+}
+
+.btn {
+  background: #0284c7;
+  color: white;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 0.5rem;
+}
+
+.reviews-upgrades {
+  margin-top: 2rem;
+}
+
+.reviews, .upgrades {
+  margin-bottom: 2rem;
+}
+
+.upgrades-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.upgrades-grid a {
+  display: block;
+  text-align: center;
+  color: #0284c7;
+  text-decoration: none;
+}
+
+.upgrades-grid img {
+  width: 100%;
+  height: auto;
+}
+
+/* Larger screens */
+@media screen and (min-width: 768px) {
+  nav ul {
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  .feature {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .reviews-upgrades {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .reviews, .upgrades {
+    width: 48%;
+  }
+
+  .upgrades-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
