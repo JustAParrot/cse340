@@ -102,6 +102,15 @@ main h1 {
     justify-content: space-around;
   }
 
+  nav a {
+  background: #222;
+  color: #fff;
+  padding: 0.5rem;
+  display: block;
+  text-align: center;
+  text-decoration: none;
+}
+
   .feature {
     flex-direction: row;
     justify-content: space-between;
