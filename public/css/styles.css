@@ -88,15 +88,13 @@ main h1 {
 }
 
 .upgrades-grid img {
-  width: 100%;
-  height: auto;
-}
-
-.dmc-image {
   max-width: 100px;
   max-height: 100px;
   object-fit: contain;
+  display: block;
+  margin: 0 auto;
 }
+
 
 @media screen and (min-width: 768px) {
   nav ul {
