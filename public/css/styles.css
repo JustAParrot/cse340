@@ -92,6 +92,12 @@ main h1 {
   height: auto;
 }
 
+.dmc-image {
+  max-width: 100px;
+  max-height: 100px;
+  object-fit: contain;
+}
+
 @media screen and (min-width: 768px) {
   nav ul {
     flex-direction: row;
