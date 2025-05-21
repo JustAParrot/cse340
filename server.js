@@ -52,7 +52,6 @@ app.use(async (err, req, res, next) => {
     nav = await utilities.getNav()
   } catch (navErr) {
     console.error("Navigation generation failed:", navErr.message)
-    nav = '' // fallback value
   }
 
   console.error(`Error at: "${req.originalUrl}": ${err.message}`)
@@ -64,7 +63,7 @@ app.use(async (err, req, res, next) => {
   res.status(err.status || 500).render("errors/error", {
     title: err.status || "Server Error",
     message,
-    nav 
+    nav
   })
 })
 
