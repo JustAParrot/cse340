@@ -10,6 +10,11 @@ const expressLayouts = require("express-ejs-layouts")
 const env = require("dotenv").config()
 const app = express()
 const static = require("./routes/static")
+const baseController = require("./controllers/baseController")
+const inventoryRoute = require("./routes/inventoryRoute")
+const utilities = require("./utilities")
+
+
 
 /* ***********************
  * View Engine and Templates
@@ -18,13 +23,51 @@ app.set("view engine", "ejs")
 app.use(expressLayouts)
 app.set("layout", "./layouts/layout") // not at views root
 
+
+
 /* ***********************
  * Routes
  *************************/
 app.use(static)
 app.use(express.static('public'));
-//Index Route
-app.get("/", function(req, res) {res.render("index", {tittle: "Home"})})
+//Index Routes
+//Static Route     =     app.get("/", function(req, res) {res.render("index", {tittle: "Home"})})
+app.get("/", utilities.handleErrors(baseController.buildHome))
+// Inventory routes
+app.use("/inv", inventoryRoute)
+// File Not Found Route - must be last route in list
+app.use(async (req, res, next) => {
+  next({ status: 404, message: 'Team gap FF15.' })
+})
+
+
+
+/* ***********************
+* Express Error Handler
+* Place after all other middleware
+*************************/
+app.use(async (err, req, res, next) => {
+  let nav = ''
+  try {
+    nav = await utilities.getNav()
+  } catch (navErr) {
+    console.error("Navigation generation failed:", navErr.message)
+  }
+
+  console.error(`Error at: "${req.originalUrl}": ${err.message}`)
+
+  const message = err.status == 404
+    ? err.message
+    : "Oh no! There was a crash. Maybe try a different route?"
+
+  res.status(err.status || 500).render("errors/error", {
+    title: err.status || "Server Error",
+    message,
+    nav
+  })
+})
+
+
 
 /* ***********************
  * Local Server Information
@@ -32,6 +75,8 @@ app.get("/", function(req, res) {res.render("index", {tittle: "Home"})})
  *************************/
 const port = process.env.PORT
 const host = process.env.HOST
+
+
 
 /* ***********************
  * Log statement to confirm server operation

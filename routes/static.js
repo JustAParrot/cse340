@@ -1,5 +1,7 @@
 const express = require('express');
+const path = require('path');
 const router = express.Router();
+
 
 // Static Routes
 // Set up "public" folder / subfolders for static files
