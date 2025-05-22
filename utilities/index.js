@@ -4,26 +4,28 @@ const Util = {}
 /* ************************
  * Constructs the nav HTML unordered list
  ************************** */
+Util.getNav = async function () {
+  const data = await invModel.getClassifications();
 
-Util.getNav = async function (req, res, next) {
-  let data = await invModel.getClassifications()
-  let list = "<ul>"
-  list += '<li><a href="/" title="Home page">Home</a></li>'
+  let list = "<ul>";
+  list += '<li><a href="/" title="Home page">Home</a></li>';
+
+  const seen = new Set();
+
   data.rows.forEach((row) => {
-    list += "<li>"
-    list +=
-      '<a href="/inv/type/' +
-      row.classification_id +
-      '" title="See our inventory of ' +
-      row.classification_name +
-      ' vehicles">' +
-      row.classification_name +
-      "</a>"
-    list += "</li>"
-  })
-  list += "</ul>"
-  return list
-}
+    const name = row.classification_name;
+    const id = row.classification_id;
+    if (!seen.has(name)) {
+      seen.add(name);
+      list += `<li><a href="/inv/type/${id}" title="See our inventory of ${name} vehicles">${name}</a></li>`;
+    }
+  });
+
+  list += "</ul>";
+  return list;
+};
+
+
 
 /* **************************************
 * Build the classification view HTML :(
@@ -64,18 +66,17 @@ Util.buildVehicleDetailHtml = function(vehicle) {
   const miles = Number(vehicle.inv_miles).toLocaleString();
 
   return `
-    <section class="vehicle-detail">
-      <img src="${vehicle.inv_image}" alt="Image of ${vehicle.inv_make} ${vehicle.inv_model}">
-      <div class="vehicle-info">
-        <h2>${vehicle.inv_make} ${vehicle.inv_model} (${vehicle.inv_year})</h2>
-        <p><strong>Price:</strong> ${price}</p>
-        <p><strong>Mileage:</strong> ${miles} miles</p>
-        <p><strong>Color:</strong> ${vehicle.inv_color}</p>
-        <p><strong>Description:</strong> ${vehicle.inv_description}</p>
-      </div>
-    </section>
-  `;
-}
+<section class="vehicle-detail">
+  <img src="${vehicle.inv_image}" alt="Image of ${vehicle.inv_make} ${vehicle.inv_model}">
+  <div class="vehicle-info">
+    <h2>${vehicle.inv_make} ${vehicle.inv_model} (${vehicle.inv_year})</h2>
+    <p><strong>Price:</strong> ${price}</p>
+    <p><strong>Mileage:</strong> ${miles} miles</p>
+    <p><strong>Color:</strong> ${vehicle.inv_color}</p>
+    <p><strong>Description:</strong> ${vehicle.inv_description}</p>
+  </div>
+</section>`;
+};
 
 
 /* ****************************************
