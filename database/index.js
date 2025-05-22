@@ -6,14 +6,20 @@ require("dotenv").config()
  * But will cause problems in production environment
  * If - else will make determination which to use
  * *************** */
-const isProduction = process.env.NODE_ENV === "production";
+// const isProduction = process.env.NODE_ENV === "production";
+
+// const pool = new Pool({
+//   connectionString: process.env.DATABASE_URL,
+//   ssl: isProduction
+//     ? { rejectUnauthorized: false }
+//     : false, // disable SSL locally
+// });
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: isProduction
-    ? { rejectUnauthorized: false }
-    : false, // disable SSL locally
+  ssl: { rejectUnauthorized: false }
 });
+
 
 // Added for troubleshooting queries
 // during development

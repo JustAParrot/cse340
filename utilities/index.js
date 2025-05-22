@@ -58,6 +58,26 @@ Util.buildClassificationGrid = async function(data){
   return grid
 }
 
+// Vehicle Detail HTML
+Util.buildVehicleDetailHtml = function(vehicle) {
+  const price = Number(vehicle.inv_price).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+  const miles = Number(vehicle.inv_miles).toLocaleString();
+
+  return `
+    <section class="vehicle-detail">
+      <img src="${vehicle.inv_image}" alt="Image of ${vehicle.inv_make} ${vehicle.inv_model}">
+      <div class="vehicle-info">
+        <h2>${vehicle.inv_make} ${vehicle.inv_model} (${vehicle.inv_year})</h2>
+        <p><strong>Price:</strong> ${price}</p>
+        <p><strong>Mileage:</strong> ${miles} miles</p>
+        <p><strong>Color:</strong> ${vehicle.inv_color}</p>
+        <p><strong>Description:</strong> ${vehicle.inv_description}</p>
+      </div>
+    </section>
+  `;
+}
+
+
 /* ****************************************
  * Middleware For Handling Errors
  * Wrap other function in this for 
