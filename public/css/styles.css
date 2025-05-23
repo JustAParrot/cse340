@@ -82,12 +82,13 @@ main h1 {
 }
 
 .btn {
-  background: #0284c7;
+  background: #222;
   color: white;
   padding: 0.5rem 1rem;
   text-decoration: none;
   display: inline-block;
   margin-top: 0.5rem;
+  border-radius: 10px;
 }
 
 .reviews-upgrades {
@@ -108,7 +109,7 @@ main h1 {
 .upgrades-grid a {
   display: block;
   text-align: center;
-  color: #0284c7;
+  color: #222;
   text-decoration: none;
 }
 
