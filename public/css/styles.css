@@ -196,6 +196,7 @@ footer a:hover {
   list-style: none;
   padding: 0;
   margin: 2rem 0;
+  justify-content: center;
 }
 
 #inv-display li {
@@ -209,7 +210,6 @@ footer a:hover {
   display: flex;
   flex-direction: column;
 }
-
 
 #inv-display li:hover {
   transform: scale(1.02);
