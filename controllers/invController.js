@@ -11,13 +11,13 @@ invCont.buildByClassificationId = async function (req, res, next) {
   const nav = await utilities.getNav();
   const className = data[0].classification_name;
 
-  res.render("layouts/layout", {
+  res.render("inventory/classification", {
     title: `${className} vehicles`,
     nav,
-    content: "../inventory/classification", 
     grid
   });
 };
+
 
 // Detail view
 invCont.buildDetailView = async function (req, res, next) {
@@ -31,12 +31,18 @@ invCont.buildDetailView = async function (req, res, next) {
   const nav = await utilities.getNav();
   const vehicleHtml = utilities.buildVehicleDetailHtml(vehicleData);
 
-  res.render("layouts/layout", {
+  res.render("inventory/detail", {
     title: `${vehicleData.inv_make} ${vehicleData.inv_model}`,
     nav,
-    content: "../inventory/detail",
     vehicleHtml
   });
 };
+
+// Error Link W03 Task 3
+invCont.testError = async function (req, res, next) {
+  throw new Error("Excellent work. You managed to fail spectacularly! Simulated Error 500");
+};
+
+
 
 module.exports = invCont;

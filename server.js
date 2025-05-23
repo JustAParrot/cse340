@@ -46,25 +46,23 @@ app.use(async (req, res, next) => {
 * Place after all other middleware
 *************************/
 app.use(async (err, req, res, next) => {
-  let nav = ''
+  let nav = "";
   try {
-    nav = await utilities.getNav()
+    nav = await utilities.getNav();
   } catch (navErr) {
-    console.error("Navigation generation failed:", navErr.message)
+    console.error("Navigation generation failed:", navErr.message);
   }
 
-  console.error(`Error at: "${req.originalUrl}": ${err.message}`)
+  console.error(`Error at: "${req.originalUrl}": ${err.message}`);
 
-  const message = err.status == 404
-    ? err.message
-    : "Oh no! There was a crash. Maybe try a different route?"
+  const message = "GG - Jungle Gap - FF15";
 
   res.status(err.status || 500).render("errors/error", {
     title: err.status || "Server Error",
     message,
     nav
-  })
-})
+  });
+});
 
 
 
