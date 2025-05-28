@@ -1,4 +1,4 @@
-const pool = require("../database/")
+const db = require("../database");
 
 /* *****************************
 *   Register new account
@@ -11,7 +11,7 @@ async function registerAccount(account_firstname, account_lastname, account_emai
       VALUES 
         ($1, $2, $3, $4, 'Client') 
       RETURNING *`
-    return await pool.query(sql, [
+    return await db.query(sql, [
       account_firstname,
       account_lastname,
       account_email,
