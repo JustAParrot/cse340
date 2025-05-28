@@ -305,3 +305,152 @@ footer a:hover {
   color: #d8000c;
   border: 1px solid #d8000c;
 }
+
+/* Login Dashboard */
+.login-container {
+  max-width: 400px;
+  margin: 3rem auto;
+  padding: 2rem;
+  border-radius: 12px;
+  background: #f9f9f9;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.login-container h1 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  color: #222;
+}
+
+.login-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.login-container label {
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+}
+
+.login-container input[type="email"],
+.login-container input[type="password"] {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.login-container button {
+  padding: 0.6rem;
+  background-color: #222;
+  color: #fff;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.login-container button:hover {
+  background-color: #555;
+}
+
+.login-container .register-link {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.login-container .register-link a {
+  color: #0284c7;
+  text-decoration: none;
+}
+
+.login-container .register-link a:hover {
+  text-decoration: underline;
+}
+
+/* Register Dashboard */
+.account-form {
+  max-width: 400px;
+  margin: 2rem auto;
+  padding: 2rem;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  background-color: #fff;
+}
+
+.account-form h1 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.account-form label {
+  display: block;
+  margin: 0.75rem 0 0.25rem;
+  font-weight: bold;
+}
+
+.account-form input[type="text"],
+.account-form input[type="email"],
+.account-form input[type="password"] {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #aaa;
+}
+
+.account-form .toggle-password {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.account-form .toggle-password input {
+  flex: 1;
+  margin-right: 0.5rem;
+}
+
+.account-form button,
+.account-form input[type="submit"] {
+  display: block;
+  width: 100%;
+  background-color: #222;
+  color: white;
+  font-size: 1rem;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin-top: 1rem;
+}
+
+.account-form button:hover,
+.account-form input[type="submit"]:hover {
+  background-color: #ccc;
+  color: #000;
+  font-weight: bold;
+}
+
+.account-form .form-footer {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.account-form .form-footer a {
+  color: #0284c7;
+  text-decoration: none;
+}
+
+.password-hint {
+  font-size: 0.9rem;
+  color: #555;
+  margin-top: -0.25rem;
+  margin-bottom: 1rem;
+  line-height: 1.4;
+}

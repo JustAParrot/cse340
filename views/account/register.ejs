@@ -1,0 +1,36 @@
+<h1>
+    <%= title %>
+</h1>
+<%- messages() %>
+
+    <form action="/account/register" method="post" class="account-form">
+        <label for="first_name">First Name</label>
+        <input type="text" id="first_name" name="first_name" required
+            value="<%= typeof first_name != 'undefined' ? first_name : '' %>">
+
+        <label for="last_name">Last Name</label>
+        <input type="text" id="last_name" name="last_name" required
+            value="<%= typeof last_name != 'undefined' ? last_name : '' %>">
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required value="<%= typeof email != 'undefined' ? email : '' %>">
+
+        <label for="account_password">Password</label>
+        <input type="password" id="account_password" name="account_password" required>
+        <div class="password-hint">
+            Must be at least 12 characters long, contain at least 1 capital letter, 1 number, and 1 special character.
+        </div>
+
+        <button type="button" onclick="togglePassword()">Show/Hide Password</button>
+
+        <button type="submit">Register</button>
+    </form>
+
+    <p>Already have an account? <a href="/account">Login</a></p>
+
+    <script>
+        function togglePassword() {
+            const pwd = document.getElementById("password")
+            pwd.type = pwd.type === "password" ? "text" : "password"
+        }
+    </script>

@@ -15,8 +15,7 @@ const inventoryRoute = require("./routes/inventoryRoute")
 const utilities = require("./utilities")
 const session = require("express-session")
 const pool = require('./database/')
-//const pgSession = require('connect-pg-simple')(session)
-
+const bodyParser = require("body-parser")
 
 
 /* ***********************
@@ -38,6 +37,9 @@ app.use(function(req, res, next){
   res.locals.messages = require('express-messages')(req, res)
   next()
 })
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
+
 
 
 /* ***********************
@@ -58,6 +60,9 @@ app.use(express.static('public'));
 app.get("/", utilities.handleErrors(baseController.buildHome))
 // Inventory routes
 app.use("/inv", inventoryRoute)
+// Account route
+const accountRoute = require("./routes/accountRoute")
+app.use("/account", accountRoute)
 // File Not Found Route - must be last in list
 app.use(async (req, res, next) => {
   next({ status: 404, message: 'Team gap FF15.' })
