@@ -22,4 +22,18 @@ async function registerAccount(account_firstname, account_lastname, account_emai
   }
 }
 
-module.exports = { registerAccount }
+async function getAccountByEmail(account_email) {
+  try {
+    const result = await pool.query(
+      "SELECT * FROM account WHERE account_email = $1",
+      [account_email]
+    );
+    return result.rows[0];
+  } catch (error) {
+    return new Error("No matching email found");
+  }
+}
+
+
+module.exports = { registerAccount, getAccountByEmail }
+

@@ -454,3 +454,17 @@ footer a:hover {
   margin-bottom: 1rem;
   line-height: 1.4;
 }
+
+input:invalid {
+  border: 2px solid red;
+}
+
+input:focus:invalid {
+  outline: none;
+  border-color: red;
+  box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+}
+
+input:valid {
+  border: 2px solid green;
+}

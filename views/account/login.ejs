@@ -2,29 +2,26 @@
 <html lang="en">
 <%- include('../partials/head') %>
 
-    <body>
-        <div class="login-container">
-            <h1>
-                <%= title %>
-            </h1>
+<body>
+  <div class="login-container">
+    <h1><%= title %></h1>
 
-            <%- messages() %>
+    <%- messages() %>
 
-                <form action="/account/login" method="POST">
-                    <label for="email">Email:</label>
-                    <input type="email" name="email" id="email" required>
+    <form action="/account/login" method="POST">
+      <label for="account_email">Email:</label>
+      <input type="email" name="account_email" id="email" required>
 
-                    <label for="password">Password:</label>
-                    <input type="password" name="password" id="password" required>
+      <label for="account_password">Password:</label>
+      <input type="password" name="account_password" id="password" required>
 
-                    <button type="submit">Login</button>
-                </form>
+      <button type="submit">Login</button>
+    </form>
 
-                <div class="register-link">
-                    <p>Don't have an account? <a href="/account/register">Register here</a></p>
-                </div>
-        </div>
-
-    </body>
+    <div class="register-link">
+      <p>Don't have an account? <a href="/account/register">Register here</a></p>
+    </div>
+  </div>
+</body>
 
 </html>
