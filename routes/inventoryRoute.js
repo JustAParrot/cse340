@@ -1,4 +1,5 @@
 // Needed Resources 
+const invValidate = require("../utilities/inv-validation")
 const express = require("express")
 const router = new express.Router() 
 const invController = require("../controllers/invController")
@@ -27,7 +28,16 @@ router.post("/add-classification",
   invController.addClassification
 )
 
+// Inventory Route
+router.get("/add-inventory", utilities.handleErrors(invController.buildAddInventory))
 
+// Handle form submission
+router.post(
+  "/add-inventory",
+  invValidate.inventoryRules(),
+  invValidate.checkInventoryData,
+  utilities.handleErrors(invController.addInventory)
+)
 
 
 

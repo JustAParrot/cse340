@@ -64,26 +64,163 @@ invCont.buildAddClassification = async function (req, res) {
 }
 
 // Process Classification Form 
-invCont.addClassification = async function (req, res) {
-  const nav = await utilities.getNav()
+async function addClassification(req, res) {
+  let nav = await utilities.getNav()
   const { classification_name } = req.body
 
-  try {
-    const result = await invModel.addClassification(classification_name)
-    if (result) {
-      req.flash("notice", `Successfully added ${classification_name} classification.`)
-      return res.redirect("/inv")
-    }
-  } catch (error) {
-    req.flash("notice", "Classification creation failed.")
-    return res.status(500).render("inventory/add-classification", {
+  const result = await invModel.addClassification(classification_name)
+
+  if (result) {
+    req.flash("notice", `The classification "${classification_name}" was successfully added.`)
+    res.status(201).render("inventory/management", {
+      title: "Inventory Management",
+      nav,
+    })
+  } else {
+    req.flash("notice", "Sorry, the classification addition failed.")
+    res.status(501).render("inventory/add-classification", {
       title: "Add Classification",
       nav,
-      errors: [{ msg: error.message }],
-      classification_name
+    })
+  }
+}
+
+async function buildAddClassification(req, res) {
+  let nav = await utilities.getNav()
+  res.render("inventory/add-classification", {
+    title: "Add Classification",
+    nav,
+    errors: null,
+  })
+}
+
+// Inventory 
+invCont.buildAddInventory = async function (req, res) {
+  let nav = await utilities.getNav()
+  let classificationList = await utilities.buildClassificationList()
+  res.render("inventory/add-inventory", {
+    title: "Add New Inventory",
+    nav,
+    classificationList,
+    errors: null
+  })
+}
+
+// Add tp Inventory
+async function addInventory(req, res) {
+  let nav = await utilities.getNav()
+  let classificationList = await utilities.buildClassificationList()
+
+  const {
+    inv_make, inv_model, inv_year, inv_description,
+    inv_image, inv_thumbnail, inv_price, inv_miles,
+    inv_color, classification_id
+  } = req.body
+
+  const result = await invModel.addInventory(
+    inv_make, inv_model, inv_year, inv_description,
+    inv_image, inv_thumbnail, inv_price, inv_miles,
+    inv_color, classification_id
+  )
+
+  if (result) {
+    req.flash("notice", `The inventory item "${inv_make} ${inv_model}" was successfully added.`)
+    res.status(201).render("inventory/management", {
+      title: "Inventory Management",
+      nav,
+    })
+  } else {
+    req.flash("notice", "Sorry, the inventory addition failed.")
+    res.status(501).render("inventory/add-inventory", {
+      title: "Add New Inventory",
+      nav,
+      classificationList,
+      errors: null,
+      inv_make,
+      inv_model,
+      inv_year,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_miles,
+      inv_color,
+      classification_id
+    })
+  }
+}
+
+// Process Add Inventory Form
+invCont.addInventory = async function (req, res) {
+  const {
+    inv_make,
+    inv_model,
+    inv_year,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_miles,
+    inv_color,
+    classification_id
+  } = req.body
+
+  let nav = await utilities.getNav()
+  let classificationList = await utilities.buildClassificationList(classification_id)
+
+  const result = await invModel.addInventory(
+    inv_make,
+    inv_model,
+    inv_year,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_miles,
+    inv_color,
+    classification_id
+  )
+
+  if (result) {
+    req.flash("notice", `${inv_make} ${inv_model} added successfully.`)
+    res.redirect("/inv")
+  } else {
+    req.flash("notice", "Sorry, adding the inventory item failed.")
+    res.status(501).render("inventory/add-inventory", {
+      title: "Add New Inventory",
+      nav,
+      classificationList,
+      errors: null,
+      inv_make,
+      inv_model,
+      inv_year,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_miles,
+      inv_color,
+      classification_id
     })
   }
 }
 
 
-module.exports = invCont;
+
+module.exports = {
+  buildByClassificationId,
+  buildDetailView,
+  testError,
+  buildManagement,
+  buildAddClassification,
+  addClassification,
+  buildAddInventory,
+  addInventory, 
+}
+
+
+invCont.buildManagement = buildManagement
+invCont.addClassification = addClassification
+
+module.exports = invCont
+
