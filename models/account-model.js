@@ -18,8 +18,10 @@ async function registerAccount(account_firstname, account_lastname, account_emai
       account_password
     ])
   } catch (error) {
-    return error.message
+  console.error("Error executing registerAccount:", error); // <-- Add this
+  throw error; // Let it propagate to your controller or error middleware
   }
+
 }
 
 module.exports = { registerAccount }
