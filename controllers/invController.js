@@ -206,21 +206,10 @@ invCont.addInventory = async function (req, res) {
 }
 
 
-
-module.exports = {
-  buildByClassificationId,
-  buildDetailView,
-  testError,
-  buildManagement,
-  buildAddClassification,
-  addClassification,
-  buildAddInventory,
-  addInventory, 
-}
-
-
 invCont.buildManagement = buildManagement
 invCont.addClassification = addClassification
+invCont.addInventory = addInventory
 
 module.exports = invCont
+
 
