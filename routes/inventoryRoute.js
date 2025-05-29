@@ -16,7 +16,7 @@ router.get('/detail/:invId', invController.buildDetailView);
 router.get("/error-test", utilities.handleErrors(invController.testError));
 
 // Managment Route
-router.get("/", utilities.handleErrors(inventoryController.buildManagement))
+router.get("/", utilities.handleErrors(invController.buildManagement))
 
 // Classification Route
 router.get("/add-classification", invController.buildAddClassification)
