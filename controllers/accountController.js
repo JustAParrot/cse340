@@ -1,5 +1,5 @@
 const utilities = require("../utilities/")
-const accountModel = require("../models/account-model")  // ✅ <- Add this
+const accountModel = require("../models/account-model")  
 
 // Deliver login view
 async function buildLogin(req, res, next) {
@@ -24,12 +24,18 @@ async function registerAccount(req, res) {
   let nav = await utilities.getNav()
   const { account_firstname, account_lastname, account_email, account_password } = req.body
 
+  // Debug
+  console.log("REGISTER CONTROLLER HIT:", req.body)
+
   const regResult = await accountModel.registerAccount(
     account_firstname,
     account_lastname,
     account_email,
     account_password
   )
+
+  // Debug
+  console.log("REGISTER CONTROLLER HIT:", req.body)
 
   if (regResult) {
     req.flash(
