@@ -43,6 +43,47 @@ invCont.testError = async function (req, res, next) {
   throw new Error("Excellent work. You managed to fail spectacularly! Simulated Error 500");
 };
 
+// Managment 
+async function buildManagement(req, res, next) {
+  let nav = await utilities.getNav()
+  res.render("inventory/management", {
+    title: "Inventory Management",
+    nav,
+    errors: null,
+  })
+}
+
+// Display Add Classification Form 
+invCont.buildAddClassification = async function (req, res) {
+  const nav = await utilities.getNav()
+  res.render("inventory/add-classification", {
+    title: "Add Classification",
+    nav,
+    errors: null
+  })
+}
+
+// Process Classification Form 
+invCont.addClassification = async function (req, res) {
+  const nav = await utilities.getNav()
+  const { classification_name } = req.body
+
+  try {
+    const result = await invModel.addClassification(classification_name)
+    if (result) {
+      req.flash("notice", `Successfully added ${classification_name} classification.`)
+      return res.redirect("/inv")
+    }
+  } catch (error) {
+    req.flash("notice", "Classification creation failed.")
+    return res.status(500).render("inventory/add-classification", {
+      title: "Add Classification",
+      nav,
+      errors: [{ msg: error.message }],
+      classification_name
+    })
+  }
+}
 
 
 module.exports = invCont;

@@ -7,9 +7,7 @@ async function getClassifications(){
 }
 
 
-/* ***************************
- *  Get all inventory items and classification_name by classification_id
- * ************************** */
+// Get all inventory items and classification_name by classification_id
 async function getInventoryByClassificationId(classification_id) {
   try {
     const data = await pool.query(
@@ -39,6 +37,16 @@ async function getInventoryById(invId) {
   }
 }
 
+async function addClassification(classification_name) {
+  try {
+    const sql = `INSERT INTO classification (classification_name) VALUES ($1)`
+    const result = await pool.query(sql, [classification_name])
+    return result
+  } catch (error) {
+    throw new Error(error.message)
+  }
+}
 
 
-module.exports = {getClassifications, getInventoryByClassificationId, getInventoryById};
+
+module.exports = {getClassifications, getInventoryByClassificationId, getInventoryById, addClassification};
