@@ -468,3 +468,11 @@ input:focus:invalid {
 input:valid {
   border: 2px solid green;
 }
+
+.notice {
+  color: red;
+  background-color: #ffe6e6;
+  padding: 1rem;
+  border: 1px solid red;
+  border-radius: 4px;
+}
