@@ -1,29 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<%- include('../partials/head') %>
+<main>
+  <h1><%= title %></h1>
 
-<body>
-  <header>
-    <%- include('../partials/header') %>
-    <%- nav %>
-  </header>
-
-  <main>
-    <h1><%= title %></h1>
-
-    <%- messages() %>
-
-    <section>
-      <h2>Inventory Management</h2>
+  <% if (messages && messages.length) { %>
+    <div class="flash-message">
       <ul>
-        <li><a href="/inv/add-classification">Add New Classification</a></li>
-        <li><a href="/inv/add-inventory">Add New Vehicle</a></li>
+        <% messages.forEach(msg => { %>
+          <li><%= msg %></li>
+        <% }) %>
       </ul>
-    </section>
-  </main>
+    </div>
+  <% } %>
 
-  <footer>
-    <%- include('../partials/footer') %>
-  </footer>
-</body>
-</html>
+  <section class="management-links">
+    <h2>Manage Inventory</h2>
+    <ul>
+      <li><a href="/inv/add-classification">Add New Classification</a></li>
+      <li><a href="/inv/add-inventory">Add New Vehicle</a></li>
+    </ul>
+  </section>
+</main>

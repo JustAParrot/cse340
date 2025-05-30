@@ -1,3 +1,4 @@
+const utilities = require("./index")
 const { body, validationResult } = require("express-validator")
 const validate = {}
 
@@ -36,12 +37,12 @@ validate.inventoryRules = () => {
     body("classification_id").notEmpty().withMessage("Choose a classification."),
     body("inv_make").trim().notEmpty().withMessage("Vehicle make is required."),
     body("inv_model").trim().notEmpty().withMessage("Vehicle model is required."),
-    body("inv_year").isInt({ min: 1900 }).withMessage("Valid year is required."),
+    body("inv_year").isInt({ min: 1900, max: 2100 }).withMessage("Year must be between 1900 and 2100"),
     body("inv_description").trim().notEmpty().withMessage("Description is required."),
     body("inv_image").trim().notEmpty().withMessage("Image path is required."),
     body("inv_thumbnail").trim().notEmpty().withMessage("Thumbnail path is required."),
-    body("inv_price").isFloat({ min: 0 }).withMessage("Valid price is required."),
-    body("inv_miles").isInt({ min: 0 }).withMessage("Mileage must be a number."),
+    body("inv_price").isFloat({ min: 0 }).withMessage("Price must be a positive number"),
+    body("inv_miles").isInt({ min: 0 }).withMessage("Miles must be a positive integer"),
     body("inv_color").trim().notEmpty().withMessage("Color is required.")
   ]
 }
