@@ -1,4 +1,5 @@
 const db = require("../database");
+const pool = require("../database/");
 
 /* *****************************
 *   Register new account
@@ -24,13 +25,12 @@ async function registerAccount(account_firstname, account_lastname, account_emai
 
 async function getAccountByEmail(account_email) {
   try {
-    const result = await pool.query(
-      "SELECT * FROM account WHERE account_email = $1",
-      [account_email]
-    );
-    return result.rows[0];
+    const sql = "SELECT * FROM account WHERE account_email = $1"
+    const result = await pool.query(sql, [account_email])
+    return result.rows[0]  
   } catch (error) {
-    return new Error("No matching email found");
+    console.error("getAccountByEmail error:", error)
+    return null
   }
 }
 
@@ -41,12 +41,12 @@ async function checkExistingEmail(account_email) {
   try {
     const sql = "SELECT * FROM account WHERE account_email = $1"
     const email = await pool.query(sql, [account_email])
-    return email.rowCount
+    return email.rowCount > 0 
   } catch (error) {
-    return error.message
+    console.error("checkExistingEmail error:", error)
+    return false
   }
 }
-
 
 
 module.exports = {

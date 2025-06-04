@@ -1,6 +1,8 @@
 const utilities = require("../utilities/")
 const accountModel = require("../models/account-model")
 const bcrypt = require("bcryptjs")
+const jwt = require("jsonwebtoken")
+require("dotenv").config()
 
 // Deliver login view
 async function buildLogin(req, res, next) {
@@ -26,18 +28,19 @@ async function registerAccount(req, res) {
   let nav = await utilities.getNav()
   const { account_firstname, account_lastname, account_email, account_password } = req.body
   let hashedPassword
+
   try {
     hashedPassword = await bcrypt.hash(account_password, 10)
   } catch (error) {
     req.flash("notice", "Sorry, there was an error processing the registration.")
-    res.status(500).render("account/register", {
+    return res.status(500).render("account/register", {
       title: "Registration",
       nav,
       account_firstname,
       account_lastname,
-      account_email
+      account_email,
+      errors: [] 
     })
-    return
   }
 
   // Debug
@@ -50,23 +53,25 @@ async function registerAccount(req, res) {
     hashedPassword
   )
 
-  // Debug
-  console.log("REGISTER CONTROLLER HIT:", req.body)
-
   if (regResult) {
     req.flash(
       "notice",
       `Congratulations, you're registered ${account_firstname}. Please log in.`
     )
-    res.status(201).render("account/login", {
+    return res.status(201).render("account/login", {
       title: "Login",
       nav,
+      errors: [] 
     })
   } else {
     req.flash("notice", "Sorry, the registration failed.")
-    res.status(501).render("account/register", {
+    return res.status(501).render("account/register", {
       title: "Registration",
       nav,
+      account_firstname,
+      account_lastname,
+      account_email,
+      errors: [] 
     })
   }
 }
@@ -75,7 +80,6 @@ async function registerAccount(req, res) {
 async function accountLogin(req, res) {
   let nav = await utilities.getNav()
   const { account_email, account_password } = req.body
-
   const accountData = await accountModel.getAccountByEmail(account_email)
 
   if (!accountData) {
@@ -83,30 +87,68 @@ async function accountLogin(req, res) {
     return res.status(400).render("account/login", {
       title: "Login",
       nav,
-      account_email
+      account_email,
+      errors: []
     })
   }
 
-  const match = await bcrypt.compare(account_password, accountData.account_password)
-  if (!match) {
-    req.flash("notice", "Invalid email or password.")
-    return res.status(400).render("account/login", {
-      title: "Login",
-      nav,
-      account_email
+  try {
+    const match = await bcrypt.compare(account_password, accountData.account_password)
+    if (!match) {
+      req.flash("notice", "Invalid email or password.")
+      return res.status(400).render("account/login", {
+        title: "Login",
+        nav,
+        account_email
+      })
+    }
+
+    req.session.account_id = accountData.account_id
+    req.session.account_type = accountData.account_type
+    req.session.account_name = `${accountData.account_firstname} ${accountData.account_lastname}`
+
+    // Remove password before sending into token
+    delete accountData.account_password
+
+    const accessToken = jwt.sign(
+      accountData,
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: "1h" }
+    )
+
+    res.cookie("jwt", accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 3600000 // 1 hour? Just to test
     })
+
+    req.flash("notice", `Welcome back, ${accountData.account_firstname}`)
+    return res.redirect("/account/")
+  } catch (error) {
+    console.error("Login error:", error)
+    res.status(500).send("An unexpected error occurred.")
   }
+}
 
-  // Set session variables
-  req.session.account_id = accountData.account_id
-  req.session.account_type = accountData.account_type
-  req.session.account_name = `${accountData.account_firstname} ${accountData.account_lastname}`
+async function buildAccountManagement(req, res) {
+  const nav = await utilities.getNav()
+  res.render("account/management", {
+    title: "Account Management",
+    nav,
+    messages: req.flash("notice"),
+    errors: null,
+  })
+}
 
-  req.flash("notice", `Welcome back, ${accountData.account_firstname}`)
-  return res.redirect("/")
+// Logout
+async function logout(req, res) {
+  req.session.destroy(() => {
+    res.clearCookie("jwt")
+    res.redirect("/account/login")
+  })
 }
 
 
 
-module.exports = { buildLogin, buildRegister, registerAccount, accountLogin }
+module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, buildAccountManagement, logout}
 

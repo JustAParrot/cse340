@@ -16,6 +16,31 @@ const utilities = require("./utilities")
 const session = require("express-session")
 const pool = require('./database/')
 const bodyParser = require("body-parser")
+const cookieParser = require("cookie-parser")
+
+// Chatgpt code to help with an Error at: "/": Cannot read properties of undefined (reading 'account_id')
+app.use(cookieParser())
+
+app.use(session({
+  store: new (require('connect-pg-simple')(session))({
+    createTableIfMissing: true,
+    pool,
+  }),
+  secret: process.env.SESSION_SECRET,
+  resave: true,
+  saveUninitialized: true,
+  name: 'sessionId',
+}))
+
+// Safe to set res.locals
+app.use((req, res, next) => {
+  res.locals.account_id = req.session.account_id
+  res.locals.account_type = req.session.account_type
+  res.locals.account_name = req.session.account_name
+  res.locals.loggedin = req.session.account_id ? true : false
+  next()
+})
+
 
 
 /* ***********************
@@ -39,7 +64,7 @@ app.use(function(req, res, next){
 })
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
-
+app.use(utilities.checkJWTToken)
 
 
 /* ***********************
