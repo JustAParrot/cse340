@@ -39,6 +39,10 @@ router.post(
   utilities.handleErrors(invController.addInventory)
 )
 
+// DELETE Route
+router.get("/delete/:invId", utilities.checkLogin, utilities.handleErrors(invController.buildDeleteView))
+router.post("/delete/", utilities.checkLogin, utilities.handleErrors(invController.deleteInventoryItem)
+)
 
 
 module.exports = router;

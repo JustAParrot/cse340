@@ -1,0 +1,21 @@
+<main>
+  <h1><%= title %></h1>
+  <p>Confirm Deletion - The delete is permanent.</p>
+
+  <form action="/inv/delete/" method="post">
+    <label for="inv_make">Make</label>
+    <input type="text" readonly id="inv_make" name="inv_make" value="<%= item.inv_make %>">
+
+    <label for="inv_model">Model</label>
+    <input type="text" readonly id="inv_model" name="inv_model" value="<%= item.inv_model %>">
+
+    <label for="inv_year">Year</label>
+    <input type="text" readonly id="inv_year" name="inv_year" value="<%= item.inv_year %>">
+
+    <label for="inv_price">Price</label>
+    <input type="text" readonly id="inv_price" name="inv_price" value="$<%= item.inv_price.toLocaleString() %>">
+
+    <input type="hidden" name="inv_id" value="<%= item.inv_id %>">
+    <input type="submit" value="Delete">
+  </form>
+</main>

@@ -161,9 +161,44 @@ async function addInventory(req, res) {
   }
 }
 
+// Deliver Delete Confirmation View
+invCont.buildDeleteView = async function (req, res, next) {
+  const invId = req.params.invId
+  const data = await invModel.getInventoryById(invId)
+  const nav = await utilities.getNav()
+  res.render("inventory/delete-confirm", {
+    title: `Delete ${data.inv_make} ${data.inv_model}`,
+    nav,
+    errors: null,
+    item: data,
+  })
+}
 
-invCont.buildManagement = buildManagement;
-invCont.addClassification = addClassification;
-invCont.addInventory = addInventory;
+// Process Deletion
+invCont.deleteInventoryItem = async function (req, res, next) {
+  const invId = req.body.inv_id
+  const result = await invModel.deleteInventoryItem(invId)
+  const nav = await utilities.getNav()
 
-module.exports = invCont;
+  if (result) {
+    req.flash("notice", "The item was successfully deleted.")
+    res.redirect("/inv")
+  } else {
+    req.flash("notice", "Sorry, the delete failed.")
+    res.status(500).render("inventory/management", {
+      title: "Inventory Management",
+      nav,
+      errors: null,
+    })
+  }
+}
+
+
+invCont.buildManagement = buildManagement
+invCont.addClassification = addClassification
+invCont.addInventory = addInventory
+invCont.buildDeleteView = buildDeleteView
+invCont.deleteInventoryItem = deleteInventoryItem
+
+module.exports = invCont
+
