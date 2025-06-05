@@ -50,11 +50,10 @@ Util.checkJWTToken = (req, res, next) => {
  }
 }
 
-
 /* **************************************
 * Build the classification view HTML :(
 * ************************************ */
-Util.buildClassificationGrid = async function (data) {
+Util.buildClassificationGrid = async function (data, loggedin = false) {
   let grid = "";
 
   if (data.length > 0) {
@@ -71,8 +70,15 @@ Util.buildClassificationGrid = async function (data) {
             </a>
           </h2>
           <span>$${new Intl.NumberFormat("en-US").format(vehicle.inv_price)}</span>
-        </div>
-      </li>`;
+        </div>`;
+
+      if (loggedin) {
+        grid += `<div class="delete-button">
+          <a href="/inv/delete/${vehicle.inv_id}" class="button warning">Delete</a>
+        </div>`;
+      }
+
+      grid += `</li>`;
     });
     grid += "</ul>";
   } else {
@@ -81,6 +87,7 @@ Util.buildClassificationGrid = async function (data) {
 
   return grid;
 };
+
 
 
 // Vehicle Detail HTML
@@ -104,22 +111,19 @@ Util.buildVehicleDetailHtml = function(vehicle) {
 // Inventory function
 async function buildClassificationList(classification_id = null) {
   let data = await invModel.getClassifications()
-  let classificationList =
-    '<select name="classification_id" id="classificationList" required>'
-  classificationList += "<option value=''>Choose a Classification</option>"
+  let classificationList = ""
+
   data.rows.forEach((row) => {
-    classificationList += '<option value="' + row.classification_id + '"'
-    if (
-      classification_id != null &&
-      row.classification_id == classification_id
-    ) {
-      classificationList += " selected "
+    classificationList += `<option value="${row.classification_id}"`
+    if (classification_id != null && row.classification_id == classification_id) {
+      classificationList += " selected"
     }
-    classificationList += ">" + row.classification_name + "</option>"
+    classificationList += `>${row.classification_name}</option>`
   })
-  classificationList += "</select>"
+
   return classificationList
 }
+
 
 /* ****************************************
  *  Check Login
@@ -139,6 +143,26 @@ Util.checkLogin = (req, res, next) => {
  * General Error Handling
  **************************************** */
 Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
+
+// Inventory List for Delete
+Util.buildInventoryList = function (data) {
+  let table = `<table class="invTable">
+    <thead>
+      <tr><th>Vehicle</th><th>Year</th></tr>
+    </thead>
+    <tbody>`
+
+  data.forEach(vehicle => {
+    table += `<tr>
+      <td>${vehicle.inv_make} ${vehicle.inv_model}</td>
+      <td>${vehicle.inv_year}</td>
+    </tr>`
+  })
+
+  table += `</tbody></table>`
+  return table
+}
+
 
 
 Util.buildClassificationList = buildClassificationList

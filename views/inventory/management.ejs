@@ -1,21 +1,33 @@
 <main>
-  <h1><%= title %></h1>
-
   <% if (messages && messages.length) { %>
     <div class="flash-message">
       <ul>
-        <% messages.forEach(msg => { %>
-          <li><%= msg %></li>
-        <% }) %>
+        <% messages.forEach(msg=> { %>
+          <li>
+            <%= msg %>
+          </li>
+          <% }) %>
       </ul>
     </div>
-  <% } %>
+    <% } %>
 
-  <section class="management-links">
-    <h2>Manage Inventory</h2>
-    <ul>
-      <li><a href="/inv/add-classification">Add New Classification</a></li>
-      <li><a href="/inv/add-inventory">Add New Vehicle</a></li>
-    </ul>
-  </section>
+      <section class="management-links">
+        <h2>Manage Inventory</h2>
+
+        <h3>View Inventory By Classification</h3>
+        <form action="/inv/by-classification" method="get">
+          <label for="classification_id">Classification</label>
+          <select name="classificationId" id="classification_id" required>
+            <option value="">Choose a Classification</option>
+            <%- classificationList %>
+          </select>
+          <button type="submit">View</button>
+        </form>
+
+
+        <ul>
+          <li><a href="/inv/add-classification">Add New Classification</a></li>
+          <li><a href="/inv/add-inventory">Add New Vehicle</a></li>
+        </ul>
+      </section>
 </main>

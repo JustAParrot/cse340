@@ -41,8 +41,13 @@ router.post(
 
 // DELETE Route
 router.get("/delete/:invId", utilities.checkLogin, utilities.handleErrors(invController.buildDeleteView))
-router.post("/delete/", utilities.checkLogin, utilities.handleErrors(invController.deleteInventoryItem)
-)
+router.post("/delete/", utilities.checkLogin, utilities.handleErrors(invController.deleteInventoryItem))
+
+
+// Route to handle dropdown "View Inventory By Classification"
+router.get("/by-classification", (req, res) => {const classificationId = req.query.classificationId; res.redirect(`/inv/type/${classificationId}`);});
+
+
 
 
 module.exports = router;

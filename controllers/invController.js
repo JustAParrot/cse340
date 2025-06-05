@@ -19,7 +19,7 @@ invCont.buildByClassificationId = async function (req, res, next) {
   }
 
   const className = data[0].classification_name;
-  const grid = await utilities.buildClassificationGrid(data);
+  const grid = await utilities.buildClassificationGrid(data, res.locals.loggedin); 
 
   res.render("inventory/classification", {
     title: `${className} vehicles`,
@@ -55,13 +55,19 @@ invCont.testError = async function (req, res, next) {
 // Management view
 async function buildManagement(req, res, next) {
   const nav = await utilities.getNav();
+  const classificationList = await utilities.buildClassificationList(); 
   res.render("inventory/management", {
     title: "Inventory Management",
     nav,
+    classificationList, 
     errors: null,
     messages: req.flash("notice")
   });
 }
+
+
+
+
 
 // Display Add Classification Form
 invCont.buildAddClassification = async function (req, res) {
@@ -197,8 +203,6 @@ invCont.deleteInventoryItem = async function (req, res, next) {
 invCont.buildManagement = buildManagement
 invCont.addClassification = addClassification
 invCont.addInventory = addInventory
-invCont.buildDeleteView = buildDeleteView
-invCont.deleteInventoryItem = deleteInventoryItem
 
 module.exports = invCont
 
