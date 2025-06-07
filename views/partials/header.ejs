@@ -2,7 +2,15 @@
 
 <header>
   <h1>
-    CSE Motors <img src="/images//site/icon.png" alt="Icon" class="site-icon">
+    CSE Motors <img src="/images/site/icon.png" alt="Icon" class="site-icon">
   </h1>
-  <div class="account-link"><a href="/account">My Account</a></div>
+  
+  <div class="account-links">
+    <% if (loggedin) { %>
+      <a href="/account">Welcome <%= account_name %></a>
+      <a href="/account/logout">Logout</a>
+    <% } else { %>
+      <a href="/account/login">My Account</a>
+    <% } %>
+  </div>
 </header>

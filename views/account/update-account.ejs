@@ -1,0 +1,51 @@
+<%- include('../partials/head') %>
+
+<main>
+  <% if (messages && messages.length) { %>
+    <div class="flash-message">
+      <ul>
+        <% messages.forEach(msg => { %>
+          <li><%= msg %></li>
+        <% }) %>
+      </ul>
+    </div>
+  <% } %>
+
+  <div class="form-container">
+    <h1><%= title %></h1>
+
+    <section>
+      <form action="/account/update" method="post">
+        <label for="account_firstname">First Name</label>
+        <input type="text" id="account_firstname" name="account_firstname" required
+               value="<%= typeof accountData.account_firstname !== 'undefined' ? accountData.account_firstname : '' %>">
+
+        <label for="account_lastname">Last Name</label>
+        <input type="text" id="account_lastname" name="account_lastname" required
+               value="<%= typeof accountData.account_lastname !== 'undefined' ? accountData.account_lastname : '' %>">
+
+        <label for="account_email">Email</label>
+        <input type="email" id="account_email" name="account_email" required
+               value="<%= typeof accountData.account_email !== 'undefined' ? accountData.account_email : '' %>">
+
+        <input type="hidden" name="account_id" value="<%= accountData.account_id %>">
+        <button type="submit">Update Account</button>
+      </form>
+    </section>
+
+    <section>
+      <h2>Change Password</h2>
+      <p class="password-info">Enter a new password. It must be at least 12 characters and contain a number, a capital letter, and a special character.</p>
+
+      <form action="/account/update-password" method="post">
+        <label for="account_password">New Password</label>
+        <input type="password" id="account_password" name="account_password" required
+               pattern="(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9]).{12,}"
+               title="Must be at least 12 characters and contain a number, a capital letter, and a special character.">
+
+        <input type="hidden" name="account_id" value="<%= accountData.account_id %>">
+        <button type="submit">Change Password</button>
+      </form>
+    </section>
+  </div>
+</main>

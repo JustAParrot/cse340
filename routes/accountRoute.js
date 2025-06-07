@@ -1,13 +1,13 @@
-const regValidate = require('../utilities/account-validation')
 const express = require("express")
 const router = new express.Router()
-const utilities = require("../utilities/")
 const accountController = require("../controllers/accountController")
+const utilities = require("../utilities")
+const regValidate = require("../utilities/account-validation")
+console.log("DEBUG: typeof accountController.buildUpdateForm =", typeof accountController.buildUpdateForm);
 
 
 // After Login Routes
 router.get("/", utilities.checkLogin, utilities.handleErrors(accountController.buildAccountManagement))
-
 
 // Login Routes
 router.get("/login", utilities.handleErrors(accountController.buildLogin))
@@ -29,5 +29,27 @@ router.post(
 
 // Logout
 router.get("/logout", utilities.handleErrors(accountController.logout))
+
+// Update Account View
+ router.get("/update/:accountId", 
+   utilities.checkLogin, 
+   utilities.handleErrors(accountController.buildUpdateForm))
+
+// Account Info Update
+router.post("/update", 
+  regValidate.updateRules(), 
+  regValidate.checkUpdateData, 
+  utilities.checkLogin, 
+  utilities.handleErrors(accountController.updateAccountInfo))
+
+
+// Password Change
+router.post("/update-password",
+  regValidate.passwordRule(),
+  regValidate.checkPasswordData,
+  utilities.checkLogin,
+  utilities.handleErrors(accountController.updatePassword))
+
+
 
 module.exports = router

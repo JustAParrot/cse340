@@ -1,53 +1,78 @@
 // Needed Resources 
-const invValidate = require("../utilities/inv-validation")
 const express = require("express")
-const router = new express.Router() 
+const router = new express.Router()
 const invController = require("../controllers/invController")
-const utilities = require("../utilities/")
+const invValidate = require("../utilities/inv-validation")
+const utilities = require("../utilities")
 
-
+// --- Public Routes ---
 // Route to build inventory by classification view
-router.get("/type/:classificationId", invController.buildByClassificationId);
+router.get("/type/:classificationId", invController.buildByClassificationId)
 
-// Detail Route 
-router.get('/detail/:invId', invController.buildDetailView);
+// Route to view inventory item details
+router.get("/detail/:invId", invController.buildDetailView)
 
-// Error Route 
-router.get("/error-test", utilities.handleErrors(invController.testError));
+// Route for classification dropdown redirect
+router.get("/by-classification", (req, res) => {
+  const classificationId = req.query.classificationId
+  res.redirect(`/inv/type/${classificationId}`)
+})
 
-// Managment Route
-router.get("/", utilities.handleErrors(invController.buildManagement))
+// --- Admin-Protected Routes ---
+// Inventory Management Dashboard
+router.get("/", 
+  utilities.checkLogin, 
+  utilities.checkAccountType, 
+  utilities.handleErrors(invController.buildManagement)
+)
 
-// Classification Route
-router.get("/add-classification", invController.buildAddClassification)
+// Add Classification Form
+router.get("/add-classification", 
+  utilities.checkLogin, 
+  utilities.checkAccountType, 
+  invController.buildAddClassification
+)
 
 // Handle Classification Submission
 router.post("/add-classification",
-  invValidate.classificationRules(), 
+  invValidate.classificationRules(),
   invValidate.checkClassificationData,
+  utilities.checkLogin,
+  utilities.checkAccountType,
   invController.addClassification
 )
 
-// Inventory Route
-router.get("/add-inventory", utilities.handleErrors(invController.buildAddInventory))
+// Add Inventory Form
+router.get("/add-inventory", 
+  utilities.checkLogin, 
+  utilities.checkAccountType, 
+  utilities.handleErrors(invController.buildAddInventory)
+)
 
-// Handle form submission
-router.post(
-  "/add-inventory",
+// Handle Add Inventory Submission
+router.post("/add-inventory",
   invValidate.inventoryRules(),
   invValidate.checkInventoryData,
+  utilities.checkLogin,
+  utilities.checkAccountType,
   utilities.handleErrors(invController.addInventory)
 )
 
-// DELETE Route
-router.get("/delete/:invId", utilities.checkLogin, utilities.handleErrors(invController.buildDeleteView))
-router.post("/delete/", utilities.checkLogin, utilities.handleErrors(invController.deleteInventoryItem))
+// Delete Inventory Item - Confirm View
+router.get("/delete/:invId", 
+  utilities.checkLogin, 
+  utilities.checkAccountType, 
+  utilities.handleErrors(invController.buildDeleteView)
+)
 
+// Handle Delete Inventory Submission
+router.post("/delete", 
+  utilities.checkLogin, 
+  utilities.checkAccountType, 
+  utilities.handleErrors(invController.deleteInventoryItem)
+)
 
-// Route to handle dropdown "View Inventory By Classification"
-router.get("/by-classification", (req, res) => {const classificationId = req.query.classificationId; res.redirect(`/inv/type/${classificationId}`);});
+// Error test route
+router.get("/error-test", utilities.handleErrors(invController.testError))
 
-
-
-
-module.exports = router;
+module.exports = router

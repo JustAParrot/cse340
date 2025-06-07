@@ -46,16 +46,6 @@ app.use((req, res, next) => {
 /* ***********************
  * Middleware
  * ************************/
- app.use(session({
-  store: new (require('connect-pg-simple')(session))({
-    createTableIfMissing: true,
-    pool,
-  }),
-  secret: process.env.SESSION_SECRET,
-  resave: true,
-  saveUninitialized: true,
-  name: 'sessionId',
-}))
 // Express Messages Middleware
 app.use(require('connect-flash')())
 app.use(function(req, res, next){

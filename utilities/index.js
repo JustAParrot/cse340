@@ -163,6 +163,17 @@ Util.buildInventoryList = function (data) {
   return table
 }
 
+// Restrict inventory to employee or admin 
+Util.checkAccountType = (req, res, next) => {
+  const type = res.locals.account_type
+  if (type === "Employee" || type === "Admin") {
+    return next()
+  } else {
+    req.flash("notice", "You do not have permission to access this area.")
+    return res.redirect("/account/login")
+  }
+}
+
 
 
 Util.buildClassificationList = buildClassificationList

@@ -48,11 +48,38 @@ async function checkExistingEmail(account_email) {
   }
 }
 
+//Get account by iD
+async function getAccountById(account_id) {
+  const result = await db.query("SELECT * FROM account WHERE account_id = $1", [account_id])
+  return result.rows[0] || null
+}
+
+// Updates
+async function updateAccount(account_id, firstname, lastname, email) {
+  return db.query(`
+    UPDATE account
+    SET account_firstname = $1, account_lastname = $2, account_email = $3
+    WHERE account_id = $4
+  `, [firstname, lastname, email, account_id])
+}
+
+// Password Update
+async function updatePassword(account_id, hashedPassword) {
+  return db.query(`
+    UPDATE account
+    SET account_password = $1
+    WHERE account_id = $2
+  `, [hashedPassword, account_id])
+}
+
 
 module.exports = {
   registerAccount,
   checkExistingEmail,
-  getAccountByEmail
+  getAccountByEmail,
+  getAccountById,
+  updateAccount,
+  updatePassword
 }
 
 
