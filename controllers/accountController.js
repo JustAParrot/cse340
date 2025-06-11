@@ -147,9 +147,13 @@ async function buildAccountManagement(req, res) {
 // Logout
 async function logout(req, res) {
   req.session.destroy(() => {
-    res.clearCookie("jwt")
-    res.redirect("/account/login")
-  })
+    res.clearCookie("jwt", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "Lax"
+    });
+    res.redirect("/account/login");
+  });
 }
 
 // Update View
