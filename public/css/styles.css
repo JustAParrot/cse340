@@ -638,3 +638,52 @@ input:valid {
   margin-bottom: 1rem;
   color: #555;
 }
+
+/* Contact Form */
+form.message-form {
+  max-width: 400px;
+  margin: 2rem auto;
+  padding: 2rem;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+form.message-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+form.message-form input[type="text"],
+form.message-form textarea {
+  width: 100%;
+  padding: 0.6rem;
+  margin-bottom: 1rem;
+  border: 1px solid #aaa;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+form.message-form textarea {
+  resize: vertical;
+  height: 120px;
+}
+
+form.message-form button {
+  width: 100%;
+  padding: 0.7rem;
+  background-color: #0054a6;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+form.message-form button:hover {
+  background-color: #004080;
+}
