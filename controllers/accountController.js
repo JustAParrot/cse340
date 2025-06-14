@@ -134,6 +134,7 @@ async function accountLogin(req, res) {
 async function buildAccountManagement(req, res) {
   const account_id = res.locals.account_id;
   const accountData = await accountModel.getAccountById(account_id);
+  accountData.account_type = accountData.account_type.toLowerCase();
 
   const nav = await utilities.getNav();
   res.render("account/management", {

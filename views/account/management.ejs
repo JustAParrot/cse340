@@ -17,9 +17,15 @@
     <a href="/account/update/<%= accountData.account_id %>">Update Account Information</a>
   </p>
 
-  <!-- Inventory Management visible only for admin / employee -->
+  <!-- Inventory Management visible only for all -->
   <% if (accountData.account_type === 'admin' || accountData.account_type === 'employee') { %>
     <h3>Inventory Management</h3>
     <p><a href="/inv">Go to Inventory Management</a></p>
+  <% } %>
+
+  <!-- Inbox visible only for admin -->
+  <% if (accountData.account_type === 'admin') { %>
+    <h3>Admin Inbox</h3>
+    <p><a href="/account/inbox">View Inbox</a></p>
   <% } %>
 </main>
