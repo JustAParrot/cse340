@@ -3,6 +3,7 @@ const router = new express.Router()
 const accountController = require("../controllers/accountController")
 const utilities = require("../utilities")
 const regValidate = require("../utilities/account-validation")
+const messageValidate = require("../utilities/message-validation");
 console.log("DEBUG: typeof accountController.buildUpdateForm =", typeof accountController.buildUpdateForm);
 
 
@@ -50,6 +51,26 @@ router.post("/update-password",
   utilities.checkLogin,
   utilities.handleErrors(accountController.updatePassword))
 
+// Feedback - Message 
+router.get("/contact", 
+  utilities.checkLogin, 
+  messageController.buildMessageForm);
+const messageValidate = require("../utilities/message-validation");
+router.post(
+  "/contact",
+  utilities.checkLogin,
+  messageValidate.messageRules(),
+  messageValidate.checkMessageData,
+  messageController.handleMessagePost
+);
+
+// Feedback View
+router.get(
+  "/inbox",
+  utilities.checkLogin,
+  utilities.checkAdmin,
+  messageController.viewMessages
+);
 
 
 module.exports = router

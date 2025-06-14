@@ -1,0 +1,30 @@
+<% if (errors && errors.length > 0) { %>
+  <div class="flash-message error">
+    <ul>
+      <% errors.forEach(err => { %>
+        <li><%= err.msg %></li>
+      <% }) %>
+    </ul>
+  </div>
+<% } %>
+
+<% if (messages && messages.length > 0) { %>
+  <div class="flash-message">
+    <ul>
+      <% messages.forEach(msg => { %>
+        <li><%= msg %></li>
+      <% }) %>
+    </ul>
+  </div>
+<% } %>
+
+<h1>Contact Support</h1>
+<form method="post" action="/account/contact">
+  <label for="subject">Subject</label>
+  <input type="text" name="subject" id="subject" required>
+
+  <label for="body">Message</label>
+  <textarea name="body" id="body" required></textarea>
+
+  <button type="submit">Send Message</button>
+</form>

@@ -60,11 +60,23 @@ VALUES ('Custom'),
 	('Sedan');
 
 -- 4. Update GM Hummer description 
+
 UPDATE public.inventory
 SET inv_description = REPLACE(inv_description, 'small interiors', 'a huge interior')
 WHERE inv_make = 'GM' AND inv_model = 'Hummer';
 
 -- 6. Update all inv_image/thumbnail to include /vehicles
+
 UPDATE public.inventory
 SET inv_image = REPLACE(inv_image, '/images/', '/images/vehicles/'),
     inv_thumbnail = REPLACE(inv_thumbnail, '/images/', '/images/vehicles/');
+
+-- Data for table "Messages" (W06)
+
+CREATE TABLE IF NOT EXISTS public.messages (
+  message_id SERIAL PRIMARY KEY,
+  account_id INTEGER REFERENCES account(account_id),
+  subject TEXT NOT NULL,
+  body TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

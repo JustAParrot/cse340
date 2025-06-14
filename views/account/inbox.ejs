@@ -1,0 +1,10 @@
+<h1>User Messages</h1>
+<ul>
+  <% messages.rows.forEach(msg => { %>
+    <li>
+      <strong><%= msg.subject %></strong> from <%= msg.account_firstname %> <%= msg.account_lastname %><br>
+      <small><%= msg.created_at.toLocaleString() %></small>
+      <p><%= msg.body %></p>
+    </li>
+  <% }) %>
+</ul>

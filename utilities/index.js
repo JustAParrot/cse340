@@ -166,7 +166,7 @@ Util.buildInventoryList = function (data) {
 // Restrict inventory to employee or admin 
 Util.checkAccountType = (req, res, next) => {
   const type = res.locals.account_type
-  if (type === "Employee" || type === "Admin") {
+  if (type === "employee" || type === "admin") {
     return next()
   } else {
     req.flash("notice", "You do not have permission to access this area.")
@@ -174,6 +174,16 @@ Util.checkAccountType = (req, res, next) => {
   }
 }
 
+// Check "admin" for inbox view
+Util.checkAdmin = (req, res, next) => {
+  const type = res.locals.account_type;
+  if (type === "admin") {
+    return next();
+  } else {
+    req.flash("notice", "You do not have permission to access this area.");
+    return res.redirect("/account/login");
+  }
+};
 
 
 Util.buildClassificationList = buildClassificationList
