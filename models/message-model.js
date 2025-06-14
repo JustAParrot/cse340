@@ -1,3 +1,5 @@
+const db = require("../database/")
+
 async function createMessage(account_id, subject, body) {
   return db.query(`
     INSERT INTO messages (account_id, subject, body)
