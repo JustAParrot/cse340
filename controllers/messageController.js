@@ -4,9 +4,10 @@ const utilities = require("../utilities");
 async function buildMessageForm(req, res) {
   const nav = await utilities.getNav()
   res.render("account/message-form", {
-    title: "Send a Message",
+    title: "Contact Us",
     nav,
-    messages: req.flash("notice") || [] 
+    messages: req.flash("notice"),
+    errors: null 
   })
 }
 
