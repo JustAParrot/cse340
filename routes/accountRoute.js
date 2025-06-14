@@ -1,9 +1,10 @@
 const express = require("express")
 const router = new express.Router()
 const accountController = require("../controllers/accountController")
+const messageController = require("../controllers/messageController")
 const utilities = require("../utilities")
 const regValidate = require("../utilities/account-validation")
-const messageValidate = require("../utilities/message-validation");
+const messageValidate = require("../utilities/message-validation")
 console.log("DEBUG: typeof accountController.buildUpdateForm =", typeof accountController.buildUpdateForm);
 
 
@@ -55,7 +56,6 @@ router.post("/update-password",
 router.get("/contact", 
   utilities.checkLogin, 
   messageController.buildMessageForm);
-const messageValidate = require("../utilities/message-validation");
 router.post(
   "/contact",
   utilities.checkLogin,
