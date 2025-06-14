@@ -28,4 +28,9 @@
     <h3>Admin Inbox</h3>
     <p><a href="/account/inbox">View Inbox</a></p>
   <% } %>
+  <% if (accountData.account_type === 'admin') { %>
+    <h3>Admin Tools</h3>
+    <p><a href="/account/inbox">View Messages Inbox</a></p>
+  <% } %>
+
 </main>

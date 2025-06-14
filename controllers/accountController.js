@@ -140,7 +140,7 @@ async function buildAccountManagement(req, res) {
   res.render("account/management", {
     title: "Account Management",
     nav,
-    messages: req.flash("notice"),
+    messages: req.flash("notice") || [],
     accountData
   });
 }

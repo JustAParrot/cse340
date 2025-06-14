@@ -2,12 +2,12 @@ const messageModel = require("../models/message-model");
 const utilities = require("../utilities");
 
 async function buildMessageForm(req, res) {
-  const nav = await utilities.getNav();
+  const nav = await utilities.getNav()
   res.render("account/message-form", {
-    title: "Contact Support",
+    title: "Send a Message",
     nav,
-    errors: null,
-  });
+    messages: req.flash("notice") || [] 
+  })
 }
 
 async function handleMessagePost(req, res) {
