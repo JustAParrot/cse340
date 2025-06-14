@@ -674,7 +674,7 @@ form.message-form textarea {
 form.message-form button {
   width: 100%;
   padding: 0.7rem;
-  background-color: #0054a6;
+  background-color: #222;
   color: white;
   font-size: 1rem;
   font-weight: bold;
@@ -685,5 +685,5 @@ form.message-form button {
 }
 
 form.message-form button:hover {
-  background-color: #004080;
+  background-color: #333;
 }
